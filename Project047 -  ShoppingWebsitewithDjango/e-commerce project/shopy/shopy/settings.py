@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from django.core.exceptions import ImproperlyConfigured
 from django.contrib import messages
 
 
@@ -22,7 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*s1e++*%wkny&p6ijn1%1#2r7(o(u$dr$9@chsxe2t1r0d51pz'
+SECRET_KEY = os.environ.get("SHOPPING_DJANGO_SECRET_KEY", "")
+if not SECRET_KEY.strip():
+    raise ImproperlyConfigured("Set SHOPPING_DJANGO_SECRET_KEY to a private, randomly generated value.")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

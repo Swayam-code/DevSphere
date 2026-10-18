@@ -17,7 +17,9 @@ from detectron2.config import get_cfg
 app = Flask(__name__)
 UPLOAD_FOLDER = './'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.secret_key = "secret key"
+app.secret_key = os.environ.get("HUMAN_ACTIVITY_FLASK_SECRET_KEY", "")
+if not app.secret_key.strip():
+    raise RuntimeError("Set HUMAN_ACTIVITY_FLASK_SECRET_KEY to a private, randomly generated value.")
 
 
 start = time.time()

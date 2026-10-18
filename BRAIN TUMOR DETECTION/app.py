@@ -11,7 +11,9 @@ from torchvision.models import resnet50
 import os
 UPLOAD_FOLDER = os.path.join('static', 'photos')
 app = flask.Flask(__name__, template_folder='templates')
-app.secret_key = "secret key"
+app.secret_key = os.environ.get("BRAIN_TUMOR_FLASK_SECRET_KEY", "")
+if not app.secret_key.strip():
+    raise RuntimeError("Set BRAIN_TUMOR_FLASK_SECRET_KEY to a private, randomly generated value.")
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
